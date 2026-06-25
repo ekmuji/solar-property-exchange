@@ -1,0 +1,39 @@
+Phase 1: Infrastructure & Data Layer (Database)
+1.	Initialize Monorepo: Create the npm workspaces for api and web.
+2.	Setup Docker: Write the docker-compose.yml to spin up PostgreSQL (with the PostGIS extension) and Redis.
+3.	Prisma Schema: Write apps/api/prisma/schema.prisma.
+o	Define User, Warehouse (with PostGIS coordinates), Unit, SolarAsset, EnergyShare, Auction, Bid, Trade, and EVCharger.
+4.	Seed Database: Write a robust seed.ts script to populate dummy warehouses in specific locations (e.g., Birmingham) with units, solar capacity, and active auctions so the UI has data to consume immediately.
+
+
+Phase 2: Core API (NestJS)
+1.	Auth Guard: Implement Clerk JWT validation globally in NestJS so all API routes know the req.user.
+2.	Property Module: Build the REST endpoints to fetch Warehouses. Write the raw SQL query via Prisma to do the spatial search (ST_DWithin) for "warehouses within N miles".
+3.	Energy & EV Modules: Build basic CRUD endpoints to fetch solar generation stats, internal energy prices, and EV charger statuses.
+4.	Unit Availability Engine: Implement a cron job or listener that automatically updates a warehouse's available_units when a warehouse_unit status flips.
+
+
+Phase 3: Frontend Foundation & Map (Next.js)
+1.	Clerk Integration: Setup proxy.ts, .env.local, and wrap the Next.js layout.tsx with Clerk. Create login/signup flows.
+2.	UI Kit & Shell: Install Tailwind and ShadCN UI. Build the top navigation and the role-based dashboard shell.
+3.	Search & Mapbox: Build the /search page. Integrate Mapbox GL to plot the coordinates from the Property API. Add filters for "EV Charging", "Solar Capacity", etc.
+4.	Warehouse Detail Page: Build the page showing units, energy stats, and EV status.
+
+
+Phase 4: Real-Time Engines (NestJS WebSockets + Redis)
+1.	WebSocket Gateway: Setup Socket.IO in NestJS.
+2.	Auction Engine: Create the logic for placing a bid. Validate it against the current highest bid. Use Redis/WebSockets to broadcast new_highest_bid to all connected clients immediately.
+3.	Trading Matching Engine: Build the internal energy trading logic. If User A offers £0.12/kWh and User B requests at £0.15/kWh, execute the trade, update balances in the DB, and broadcast the transaction.
+
+
+Phase 5: Real-Time UI Integration (Next.js)
+1.	Live Auctions: Connect Next.js to the WebSocket gateway. Build the UI component on the Warehouse page that shows the live countdown and updates the "Current Highest Bid" without refreshing the page.
+2.	Live Trading: Build the /trade dashboard where users can see the order book and execute trades for their energy shares.
+3.	Dashboard Analytics: Integrate Recharts to visualize "Energy Generated vs. Consumed" and "Revenue from Shares" on the user dashboard.
+
+
+Phase 6: Payments & Final Polish
+1.	Stripe Connect: Integrate Stripe in NestJS. Route funds when a user buys a fractional energy share or pays for EV charging (taking a platform fee, sending the rest to the warehouse owner).
+2.	Role Guards: Ensure Tenants can't see Owner revenues, and EV Drivers only see the charging map.
+3.	AI/Forecasting Stubs: Add the // TODO comments and placeholder services for weather integration and AI pricing models.
+

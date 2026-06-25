@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-bg text-ink font-body antialiased;
+  }
+  ::selection {
+    @apply bg-solar/30 text-ink;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.solar.DEFAULT');
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /*
+   * Signature element: every quantitative figure on the platform — kWh,
+   * £/kWh, countdowns, share % — renders through this "meter" treatment so
+   * the whole product reads like numbers coming off a real energy meter,
+   * not a generic dashboard stat.
+   */
+  .meter {
+    @apply font-mono tabular-nums tracking-tight;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .panel {
+    @apply bg-surface border border-border rounded-lg shadow-panel;
+  }
+
+  .status-dot {
+    @apply inline-block h-1.5 w-1.5 rounded-full;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-surface2 rounded-full;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

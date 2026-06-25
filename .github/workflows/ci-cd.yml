@@ -1,0 +1,59 @@
+  name: SPX Core CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # Job 1: Run Frontend & Backend Automated Tests
+  test:
+    name: Run Jest Test Suites
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node_version: '20'
+          cache: 'npm' # Automatically caches node_modules for blistering fast subsequent runs
+
+      - name: Install Monorepo Dependencies
+        run: npm install
+
+      - name: Run NestJS API Tests
+        run: npm run test --workspace=apps/api
+
+      - name: Run Next.js Web Tests
+        run: npm run test --workspace=apps/web
+
+  # Job 2: Test Docker Image Builds (Only runs if tests pass!)
+  build-images:
+    name: Test Container Builds
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Test Build NestJS API Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/api/Dockerfile
+          push: false # Only test the compilation, don't attempt to push to AWS ECR yet
+
+      - name: Test Build Next.js Frontend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/web/Dockerfile
+          push: false # Only test the compilation

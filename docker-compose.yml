@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: spx-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: spx
+      POSTGRES_PASSWORD: spx_dev_password
+      POSTGRES_DB: spx
+    ports:
+      - "5432:5432"
+    volumes:
+      - spx_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U spx -d spx"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: spx-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - spx_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  spx_postgres_data:
+  spx_redis_data:
