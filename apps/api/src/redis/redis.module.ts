@@ -1,6 +1,6 @@
 import { Global, Injectable, Module, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import Redis from 'ioredis';
+import Redis, { RedisOptions } from 'ioredis';
 
 @Injectable()
 export class RedisService implements OnModuleDestroy {
@@ -12,9 +12,13 @@ export class RedisService implements OnModuleDestroy {
 
   constructor(config: ConfigService) {
     const url = config.get<string>('REDIS_URL') ?? 'redis://localhost:6379';
-    this.client = new Redis(url);
-    this.publisher = new Redis(url);
-    this.subscriber = new Redis(url);
+    
+    // Automatically apply TLS encryption if using a secure Upstash URL
+    const options: RedisOptions = url.startsWith('rediss://') ? { tls: {} } : {};
+
+    this.client = new Redis(url, options);
+    this.publisher = new Redis(url, options);
+    this.subscriber = new Redis(url, options);
   }
 
   async onModuleDestroy() {
