@@ -153,3 +153,187 @@ See `apps/api/prisma/schema.prisma` — it mirrors the PRD's table list
 `energy_trades`, `ev_chargers`, `charging_sessions`, `auctions`, `bids`) with
 proper foreign keys, enums for status fields, and a PostGIS `geography`
 column on `warehouses` for radius search.
+
+---
+
+## Skills Demonstrated
+
+The Solar Property Exchange (SPX) project was intentionally designed to cover a broad range of modern full-stack software engineering skills. Below is a breakdown of the technologies and concepts actively used throughout the codebase.
+
+### ✅ Fully Covered
+
+#### TypeScript
+
+Used extensively across both the frontend and backend.
+
+Examples include:
+
+* NestJS services and controllers
+* DTOs and validation
+* Prisma models and database access
+* React components and hooks
+* Shared application types
+
+#### React + Next.js
+
+The frontend is built with:
+
+* Next.js 15 (App Router)
+* React 19
+* TypeScript
+* Zustand
+* TanStack Query
+
+The project demonstrates:
+
+* Client and Server Components
+* Dynamic routing
+* State management
+* Data fetching and caching
+* Modern React development patterns
+
+#### SQL / PostgreSQL
+
+The application uses PostgreSQL as its primary database.
+
+Examples include:
+
+* Relational database design
+* Prisma ORM
+* Migrations and seeding
+* Complex queries
+* Spatial search using PostGIS
+
+The platform implements geographic warehouse searches using PostGIS functions such as:
+
+```sql
+ST_DWithin(...)
+```
+
+#### Docker
+
+Containerisation is used throughout development.
+
+Examples include:
+
+* PostgreSQL containers
+* Redis containers
+* Docker Compose orchestration
+* Application Dockerfiles for deployment
+
+Infrastructure is managed through:
+
+```bash
+docker compose up -d
+```
+
+#### Git & GitHub
+
+Development follows standard Git workflows including:
+
+* Feature branches
+* Commit conventions
+* Pull requests
+* Repository documentation
+* Monorepo project structure
+
+#### Automated Testing
+
+Automated testing is implemented across both frontend and backend applications.
+
+Examples include:
+
+- Jest unit tests
+- Service-layer testing
+- Component testing
+- API testing
+- Repeatable test execution through npm scripts
+
+Run tests using:
+
+```bash
+npm run test --workspace=apps/api
+npm run test --workspace=apps/web
+```
+---
+
+### 🟡 Partially Covered / Implicit
+
+#### Cloud (AWS)
+
+The project architecture is designed for deployment on AWS.
+
+Planned services include:
+
+* ECS Fargate
+* RDS PostgreSQL
+* ElastiCache Redis
+* S3 object storage
+* CloudFront CDN
+
+While the application is deployment-ready, infrastructure-as-code tooling such as Terraform or CloudFormation has not yet been implemented.
+
+#### Linux
+
+The project uses many Linux and Unix-style development concepts, including:
+
+* Command-line workflows
+* Docker container management
+* Environment variables
+* Process management
+* Development tooling
+
+Although advanced system administration and shell scripting are not a major focus, the project provides practical exposure to Linux-based development environments.
+
+---
+
+### 📈 Future Skills Expansion
+
+Future roadmap items can extend the project into additional domains:
+
+#### Networking Fundamentals
+
+Potential additions:
+
+* Reverse proxies
+* Nginx configuration
+* Load balancing
+* TLS certificates
+* DNS management
+
+#### CI/CD
+
+Potential additions:
+
+* GitHub Actions
+* Automated testing
+* Automated deployments
+* Container publishing
+
+#### Kubernetes
+
+Potential additions:
+
+* Kubernetes manifests
+* Helm charts
+* ECS-to-Kubernetes migration
+* Horizontal scaling
+
+#### Python
+
+Potential additions:
+
+* Solar generation forecasting
+* Energy demand prediction
+* Machine learning services
+* Analytics pipelines
+
+#### AI Application Development
+
+Potential additions:
+
+* Retrieval-Augmented Generation (RAG)
+* LLM-powered property search
+* Energy market insights
+* Intelligent investment recommendations
+* Portfolio analytics assistants

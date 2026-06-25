@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: spx-api
+    env: node
+    region: frankfurt # Or ohio, oregon
+    plan: free
+    buildCommand: npm install && npx prisma generate --schema=apps/api/prisma/schema.prisma && npm run build --workspace=apps/api
+    startCommand: npm run start:prod --workspace=apps/api
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false 
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
