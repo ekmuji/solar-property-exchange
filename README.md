@@ -9,7 +9,7 @@ This repo is a **starter codebase**, not a finished product. It implements
 the real architecture (Next.js front end, NestJS API, Postgres/PostGIS,
 Redis, WebSockets, Stripe Connect, Clerk) with working CRUD, a real
 auction/bidding engine, a real energy-trading matching engine, and EV
-charger booking — wired end to end — so you have a correct foundation to
+charger booking — wired end to end — so there is a correct foundation to
 build on rather than a UI mockup.
 
 ```
@@ -63,12 +63,6 @@ cp .env.local.example .env.local   # fill in NEXT_PUBLIC_API_URL, Clerk keys
 npm install
 npm run dev                  # http://localhost:3000
 ```
-
-You'll need free-tier accounts for: [Clerk](https://clerk.com),
-[Stripe](https://stripe.com) (test mode, Connect enabled), and
-[Mapbox](https://mapbox.com) (access token). The app boots and the
-marketplace/auction/trading logic all work without these — they only gate
-sign-in, payment capture, and the map tile layer respectively.
 
 ## 4. Run the Full Stack
 
