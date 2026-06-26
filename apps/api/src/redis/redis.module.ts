@@ -14,7 +14,9 @@ export class RedisService implements OnModuleDestroy {
     const url = config.get<string>('REDIS_URL') ?? 'redis://localhost:6379';
     
     // Automatically apply TLS encryption if using a secure Upstash URL
-    const options: RedisOptions = url.startsWith('rediss://') ? { tls: {} } : {};
+    const options: RedisOptions = url.includes('upstash') 
+      ? { tls: { rejectUnauthorized: false }, family: 4 } 
+      : {};
 
     this.client = new Redis(url, options);
     this.publisher = new Redis(url, options);
